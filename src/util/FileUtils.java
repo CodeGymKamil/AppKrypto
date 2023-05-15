@@ -21,7 +21,7 @@ public class FileUtils {
                 file.createNewFile();
                 FileWriter writer = new FileWriter(file);
                 writer.write(alphabet);
-                // writer.write(CASTOMER_ALPHABET);
+                //writer.write(CASTOMER_ALPHABET);
                 writer.close();
                 System.out.println("File has been created.");
 

@@ -27,7 +27,7 @@ public class Helper {
 
 
         }
-        // verificationMap(customAlphabet);
+         verificationMap(customAlphabet);
         return customAlphabet;
     }
 
@@ -36,12 +36,16 @@ public class Helper {
 
         if (type == "encrypt") {
             System.out.println("=================Encrypt==================");
-        } else if (type == "encrypt") {
-            System.out.println("==================encrypt=================");
-        } else if (type == "fileEncrypt") {
-            System.out.println("===================FileEncrypt===================");
+        } else if (type == "decrypt") {
+            System.out.println("==================Decrypt=================");
+        } else if (type == "attack") {
+            System.out.println("==================BruteForceAttack========");
+        } else if (type == "encryptDecrypt") {
+            System.out.println("===================EncryptDecrypt=========");
         } else if (type == "file") {
             System.out.println("===================File===================");
+        } else if (type == "password") {
+            System.out.println("===================Password===============");
         } else {
             System.out.println("==========================================");
         }
