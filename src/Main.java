@@ -1,49 +1,111 @@
 import models.BruteForceAttack;
 import models.CaesarCipher;
-import util.Dictionary;
 import util.FileUtils;
 
+import java.util.Scanner;
+
 import static util.Config.*;
-import static util.Helper.printSeparator;
+import static util.Helper.printMenu;
+import static util.Config.*;
+import static util.Helper.printMenu;
 
 
 public class Main {
     public static void main(String[] args) {
-
-        printSeparator("file");
-
-        FileUtils.addTextFile("AlphabetPL", CASTOMER_ALPHABET_PL);
-        FileUtils.addTextFile("AlphabetDU", CASTOMER_ALPHABET_DE);
-
+        Scanner scanner = new Scanner(System.in);
         char[] customAlphabetPL = FileUtils.readAlphabetFromFile("AlphabetPL");
-        // char[] customAlphabetDE = FileUtils.readAlphabetFromFile("AlphabetDU");
 
-        int shift = 3;
-        //String plaintext = "example test";
-        String plaintext = "example test2";
-        String plaintext3 = "example test2%";
+        String plaintext = "";
+        int shift = 0;
+        CaesarCipher caesarCipher = null;
+        String encryptedText = null;
 
-        printSeparator("password");
-        System.out.println(plaintext);
-        //String plaintext2 = "example test2";
+        while (true) {
+            printMenu();
+            try {
+                int choice = scanner.nextInt();
+                scanner.nextLine();
 
-        CaesarCipher caesarCipher = new CaesarCipher(customAlphabetPL, 3);
-        // CaesarCipher caesarCipher2 = new CaesarCipher(customAlphabetDE, CASTOMER_SHIFT);
+                switch (choice) {
+                    case 1:
+                        System.out.print("Enter some text: ");
+                        plaintext = scanner.nextLine();
+                        System.out.print("Enter a shift value: ");
 
-        printSeparator("encryptDecrypt");
-        String text = caesarCipher.encrypt(plaintext);
-        System.out.println("Encrypt: " + text);
-        String passwordDecrypt = caesarCipher.decrypt(text);
-        System.out.println("Decrypt: " + passwordDecrypt);
+                        String shiftInput = scanner.nextLine();
+                        while (!shiftInput.matches("\\d+")) {
+                            System.out.println("Invalid input. Please enter a numeric value for shift: ");
+                            shiftInput = scanner.nextLine();
+                        }
 
-        printSeparator("attack");
-        Dictionary dictionary = new Dictionary();
+                        shift = Integer.parseInt(shiftInput);
 
-        BruteForceAttack bruteForceAttack = new BruteForceAttack(dictionary.words);
-        System.out.println(bruteForceAttack.containsPassword(passwordDecrypt));
+                        System.out.println("Input string: " + plaintext);
+                        System.out.println("Input shift value: " + shift);
+                        break;
+                    case 2:
+                        if (plaintext.isEmpty()) {
+                            System.out.println("Please enter some text first.");
+                        } else {
+                            caesarCipher = createCaesarCipher(customAlphabetPL, shift);
+                            encryptedText = caesarCipher.encrypt(plaintext);
 
-
+                            System.out.println("Encrypt: " + encryptedText);
+                        }
+                        break;
+                    case 3:
+                        if (plaintext.isEmpty()) {
+                            System.out.println("Please enter some text first.");
+                        } else {
+                            if (caesarCipher != null) {
+                                String decryptedText = caesarCipher.decrypt(encryptedText);
+                                System.out.println("Decrypt: " + decryptedText);
+                            } else {
+                                System.out.println("There is no word of Encrypt.");
+                                System.out.println("Please enter some text first.");
+                            }
+                        }
+                        break;
+                    case 4:
+                        if (encryptedText.isEmpty()) {
+                            System.out.println("Please enter some text first.");
+                        } else {
+                            if (caesarCipher != null) {
+                                encryptedText = caesarCipher.encrypt(encryptedText);
+                                BruteForceAttack bruteForceAttack = new BruteForceAttack(customAlphabetPL);
+                                String decryptedText = bruteForceAttack.bruteForceAttack(encryptedText);
+                                System.out.println("Decrypted text: " + decryptedText);
+                            } else {
+                                System.out.println("There is no word of Encrypt.");
+                                System.out.println("Please enter some text first.");
+                            }
+                        }
+                        break;
+                    case 5:
+                        System.out.println("Exiting program...");
+                        return;
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid input. Please try again.");
+                scanner.nextLine();
+            }
+        }
     }
 
-
+    private static CaesarCipher createCaesarCipher(char[] alphabet, int shift) {
+        return new CaesarCipher(alphabet, shift);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+

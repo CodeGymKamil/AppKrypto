@@ -1,32 +1,62 @@
 package models;
 
-import util.Dictionary;
-
 import java.util.Arrays;
 import java.util.Set;
 
 public class BruteForceAttack {
-    private Set<String> words;
 
-    public BruteForceAttack(Set<String> words) {
-        this.words = words;
-    }
-    public boolean contains(String word) {
-        return words.contains(word);
+    private char[] alphabet;
+
+    public BruteForceAttack(char[] alphabet) {
+        this.alphabet = alphabet;
     }
 
-    public String containsPassword(String password) {
-        String[] words = password.split(" ");
-        // String[] words = password.split("(?<=[\\w\\d])\\s(?=[\\w\\d])");
+    public String bruteForceAttack(String wordDecrypt) {
+        int bestShift = 0;
+        int maxPoints = 0;
 
-        System.out.println(Arrays.toString(words));
-        for (String word : words) {
-            if (!this.contains(word)) {
-                return "Password Decrypt: Not able to decrypt the password.";
+        String[] targetWords = {
+                "i", "up", "end", "the", "and", "to", "of", "a", "in", "that",
+                "it", "is", "was", "for", "you", "he", "be", "on", "are", "with",
+                "as", "his", "they", "at", "one", "have", "this", "from", "or",
+                "had", "by", "hot", "word", "but", "what", "some", "we", "can",
+                "out", "other", "were", "all", "there", "when", "your", "how",
+                "said", "an", "each", "she", "which", "123", "12", "new", "more",
+                "if", "no", "man", "do", "my", "time", "than", "first", "water",
+                "been", "called", "who", "oil", "its", "now", "find", "long",
+                "down", "day", "did", "get", "come", "made", "may", "part","like"
+        };
+
+        int noWordPenalty = -10;
+
+        for (int shift = 0; shift < alphabet.length; shift++) {
+            CaesarCipher caesarCipher = new CaesarCipher(alphabet, shift);
+            String decryptedText = caesarCipher.decrypt(wordDecrypt);
+            int points = 0;
+
+            for (String word : targetWords) {
+                if (decryptedText.contains(word)) {
+                    points += 5;
+                }
             }
-        }
-        String passwordDecrypt = String.join(" ", words);
-        return "Password Brute Force Attack: " + passwordDecrypt;
 
+            if (points == 0) {
+                points += noWordPenalty;
+            }
+            System.out.println("Decryption with shift " + shift + ": " + decryptedText +" Points:" +points );
+            if (points > maxPoints) {
+                maxPoints = points;
+                bestShift = shift;
+            }
+
+        }
+
+
+        CaesarCipher caesarCipher = new CaesarCipher(alphabet, bestShift);
+        String bestDecryption = caesarCipher.decrypt(wordDecrypt);
+
+        System.out.println("Best decryption: " + bestDecryption);
+        return bestDecryption;
     }
+
 }

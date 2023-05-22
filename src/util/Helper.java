@@ -4,6 +4,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Helper {
+    private Map<Character, Character> rivertShiftChar;
+
+
 
     public static void verificationMap(Map<Character, Character> customAlphabet) {
         System.out.println("==========================================");
@@ -27,28 +30,19 @@ public class Helper {
 
 
         }
-         verificationMap(customAlphabet);
         return customAlphabet;
     }
 
     //type
-    public static void printSeparator(String type) {
-
-        if (type == "encrypt") {
-            System.out.println("=================Encrypt==================");
-        } else if (type == "decrypt") {
-            System.out.println("==================Decrypt=================");
-        } else if (type == "attack") {
-            System.out.println("==================BruteForceAttack========");
-        } else if (type == "encryptDecrypt") {
-            System.out.println("===================EncryptDecrypt=========");
-        } else if (type == "file") {
-            System.out.println("===================File===================");
-        } else if (type == "password") {
-            System.out.println("===================Password===============");
-        } else {
-            System.out.println("==========================================");
-        }
+    public static void printMenu() {
+        System.out.println("================= MENU =================");
+        System.out.println("1. Enter text to encrypt and shift value.");
+        System.out.println("2. Encrypt value.");
+        System.out.println("3. Encrypt decrypt.");
+        System.out.println("4 Perform encrypt-decrypt with brute force attack.");
+        System.out.println("5. Exit program.");
+        System.out.println("=======================================");
+        System.out.print("Enter your choice: ");
     }
 
 }

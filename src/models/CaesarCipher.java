@@ -7,11 +7,13 @@ import static util.Helper.createAlphabetMap;
 public class CaesarCipher {
 
     private Map<Character, Character> shiftChar;
+    private Map<Character, Character> rivertShiftChar;
     private int shift;
 
     public CaesarCipher(char[] alphabet, int shift) {
         this.shift = shift;
         shiftChar = createAlphabetMap(alphabet, shift);
+        rivertShiftChar = createAlphabetMap(alphabet, shift);
     }
 
     public String encrypt(String plaintext) {
@@ -45,6 +47,5 @@ public class CaesarCipher {
         }
         return plaintextBuilder.toString();
     }
-
 
 }
