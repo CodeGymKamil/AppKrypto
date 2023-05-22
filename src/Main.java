@@ -71,16 +71,16 @@ public class Main {
                             System.out.println("Please enter some text first.");
                         } else {
                             if (caesarCipher != null) {
-                                encryptedText = caesarCipher.encrypt(encryptedText);
                                 BruteForceAttack bruteForceAttack = new BruteForceAttack(customAlphabetPL);
-                                String decryptedText = bruteForceAttack.bruteForceAttack(encryptedText);
-                                System.out.println("Decrypted text: " + decryptedText);
+                                bruteForceAttack.bruteForceAttack(encryptedText);
+
                             } else {
                                 System.out.println("There is no word of Encrypt.");
                                 System.out.println("Please enter some text first.");
                             }
                         }
                         break;
+
                     case 5:
                         System.out.println("Exiting program...");
                         return;
