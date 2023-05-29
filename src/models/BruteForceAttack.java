@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.Set;
 
 public class BruteForceAttack {
-
     private char[] alphabet;
+    private String[] negativeWords;
 
     public BruteForceAttack(char[] alphabet) {
         this.alphabet = alphabet;
@@ -24,7 +24,22 @@ public class BruteForceAttack {
                 "said", "an", "each", "she", "which", "123", "12", "new", "more",
                 "if", "no", "man", "do", "my", "time", "than", "first", "water",
                 "been", "called", "who", "oil", "its", "now", "find", "long",
-                "down", "day", "did", "get", "come", "made", "may", "part","like"
+                "down", "day", "did", "get", "come", "made", "may", "part", "like"
+        };
+
+        String[] negativeWords = {
+                "qz", "qx", "qj", "qk", "qf", "qv", "qx", "qy", "qg", "qy", "qj", "qz",
+                "jz", "jx", "jq", "jk", "jf", "jv", "jx", "jy", "jg", "jy", "jj", "jz",
+                "zx", "zq", "zj", "zk", "zf", "zv", "zx", "zy", "zg", "zy", "zj", "zz",
+                "xq", "xz", "xj", "xk", "xf", "xv", "xz", "xy", "xg", "xy", "xj", "zz",
+                "qx", "qz", "qj", "qk", "qf", "qv", "qx", "qy", "qg", "qy", "qj", "zz",
+                "vx", "vq", "vj", "vk", "vf", "vv", "vx", "vy", "vg", "vy", "vj", "zz",
+                "zx", "zq", "zj", "zk", "zf", "zv", "zx", "zy", "zg", "zy", "zj", "zz",
+                "xx", "xq", "xj", "xk", "xf", "xv", "xx", "xy", "xg", "xy", "xj", "zz",
+                "yx", "yq", "yj", "yk", "yf", "yv", "yx", "yy", "yg", "yy", "yj", "zz",
+                "jx", "jq", "jj", "jk", "jf", "jv", "jx", "jy", "jg", "jy", "jj", "zz",
+                "zx", "zq", "zj", "zk", "zf", "zv", "zx", "zy", "zg", "zy", "zj", "zz",
+                "!x0"
         };
 
         int noWordPenalty = -10;
@@ -33,6 +48,7 @@ public class BruteForceAttack {
             CaesarCipher caesarCipher = new CaesarCipher(alphabet, shift);
             String decryptedText = caesarCipher.decrypt(wordDecrypt);
             int points = 0;
+            boolean skipShift = false;
 
             for (String word : targetWords) {
                 if (decryptedText.contains(word)) {
@@ -43,14 +59,33 @@ public class BruteForceAttack {
             if (points == 0) {
                 points += noWordPenalty;
             }
-            System.out.println("Decryption with shift " + shift + ": " + decryptedText +" Points:" +points );
+
+            for (String negativeWord : negativeWords) {
+                if (decryptedText.contains(negativeWord)) {
+                    skipShift = true;
+                    break;
+                }
+            }
+
+
+            for (String negativeWord : negativeWords) {
+                if (decryptedText.toLowerCase().contains(negativeWord)) {
+                    skipShift = true;
+                    break;
+                }
+            }
+
+            if (skipShift) {
+                continue;
+            }
+
+            System.out.println("Decryption with shift " + shift + ": " + decryptedText + " Points:" + points);
+
             if (points > maxPoints) {
                 maxPoints = points;
                 bestShift = shift;
             }
-
         }
-
 
         CaesarCipher caesarCipher = new CaesarCipher(alphabet, bestShift);
         String bestDecryption = caesarCipher.decrypt(wordDecrypt);

@@ -7,12 +7,14 @@ public class Helper {
     private Map<Character, Character> rivertShiftChar;
 
 
-
     public static void verificationMap(Map<Character, Character> customAlphabet) {
-        System.out.println("==========================================");
-        System.out.println("========== Verification Map ==============");
-        System.out.println("Key and Value: ");
-        System.out.println("==========================================");
+
+        System.out.println("""
+                ==========================================
+                ========== Verification Map ==============
+                "Key and Value:
+                ==========================================
+                 """);
 
         for (Map.Entry<Character, Character> entry : customAlphabet.entrySet()) {
             System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
@@ -33,16 +35,24 @@ public class Helper {
         return customAlphabet;
     }
 
-    //type
+
     public static void printMenu() {
-        System.out.println("================= MENU =================");
-        System.out.println("1. Enter text to encrypt and shift value.");
-        System.out.println("2. Encrypt value.");
-        System.out.println("3. Encrypt decrypt.");
-        System.out.println("4 Perform encrypt-decrypt with brute force attack.");
-        System.out.println("5. Exit program.");
-        System.out.println("=======================================");
-        System.out.print("Enter your choice: ");
+        System.out.println("""
+                ================= MENU ================================
+                1. Enter text to encrypt and shift value.
+                2. Encrypt value.
+                3. Encrypt decrypt.
+                4 Perform encrypt-decrypt with brute force attack.
+                5. Exit program.
+                =======================================================
+                 Enter your choice?
+                 """);
+    }
+
+    public static void printLine() {
+        System.out.println("""
+                =======================================================
+                 """);
     }
 
 }

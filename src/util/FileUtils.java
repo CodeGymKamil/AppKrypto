@@ -1,18 +1,15 @@
 package util;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 import static util.Config.PATH;
 
 public class FileUtils {
 
-    public static void addTextFile(String fileName, String alphabet) {
+    public static void addTextFile(String fileName, String text) {
 
-        File file = new File(PATH + "/" + fileName + ".txt");
+        File file = new File(fileName + ".txt");
         if (file.exists()) {
             System.out.println("File alredy exists.");
         } else {
@@ -20,7 +17,7 @@ public class FileUtils {
 
                 file.createNewFile();
                 FileWriter writer = new FileWriter(file);
-                writer.write(alphabet);
+                writer.write(text);
                 writer.close();
                 System.out.println("File has been created.");
 
@@ -33,7 +30,7 @@ public class FileUtils {
     public static char[] readAlphabetFromFile(String fileName) {
         char[] alphabet = null;
         try {
-            File file = new File(PATH + fileName + ".txt");
+            File file = new File(fileName + ".txt");
             Scanner scanner = new Scanner(file);
             String alphabetString = scanner.nextLine();
             alphabet = alphabetString.toCharArray();
@@ -45,4 +42,20 @@ public class FileUtils {
 
         return alphabet;
     }
+
+    public static String readTextFromFile(String filePath) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return stringBuilder.toString();
+    }
+
 }
